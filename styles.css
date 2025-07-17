@@ -1,198 +1,231 @@
-/* ---- CSS Reset ve Temel Stiller ---- */
+/* CSS ve Temel Stiller */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  overflow-x: hidden;
+  width: 100vw;
 }
 
 body {
-    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #f9fafb; /* Çok hafif gri arka plan */
-    color: #333;
-    overflow-x: hidden; /* Yatay kaydırmayı engelle */
-    padding-bottom: 0; /* JS tarafından ayarlanacak */
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f9fafb;
+  color: #333;
+  padding-bottom: 0;
 }
 
-/* Ortak çerçeve */
 .wrapper {
-    max-width: 850px;
-    margin: 25px auto;
-    padding: 0 25px;
+  max-width: 850px;
+  margin: 25px auto;
+  padding: 0 25px;
 }
 
-/* Haber kutuları (news-top ve news-bottom) */
+/*(news-top ve news-bottom) */
 .news {
-    width: 100%;
-    padding: 25px 35px;
-    margin-bottom: 35px; /* Sadece haber kutuları kendi aralarında boşluk bırakır */
-    background: #ffffff;
-    border-radius: 16px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, .08);
-    font-size: 16px;
-    line-height: 1.8;
-    color: #555;
+  width: 100%;
+  padding: 25px 35px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, .08);
+  font-size: 16px;
+  line-height: 1.8;
+  color: #555;
 }
 
-/* Sabitlenecek grubu saran div */
+/* Sabitlenecek Grup (Sticky Group) */
 #sticky-group {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    max-width: 800px; /* Wrapper ile uyumlu max genişlik */
-    margin: 0 auto; /* İçeriği ortala */
-    position: relative; /* Başlangıçta normal akışta */
-    z-index: 2;
-    /* padding-top burada önemli, çünkü news-top'un içeriği kadar boşluk bırakmalı */
-    /* Bu, news-top'un içeriğinin grafik sabitlendiğinde grafiğin üstünde kalmasını sağlar */
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
 }
 
-/* Grafik + kartlar yatağı */
 #container {
-    display: flex;
-    gap: 50px;
-    align-items: flex-start;
-    width: 100%;
-    margin-bottom: 35px; /* Alt metinle arasına boşluk bırakır */
+  display: flex;
+  gap: 50px;
+  align-items: flex-start;
+  width: 100%;
 }
 
-/* ---- Grafik kutusu ---- */
+/* Grafik Kutusu */
 #chart {
-    flex: 1;
-    background: #ffffff;
-    border-radius: 16px;
-    padding: 30px;
-    min-height: 420px;
-    position: relative;
-    top: 0;
-    box-shadow: 0 12px 40px rgba(0, 0, 0, .1);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    overflow: hidden;
+  flex: 1;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 30px;
+  min-height: 420px;
+  position: relative;
+  top: 0;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, .1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
 }
 
 #chart h2 {
-    margin: 0 0 30px;
-    text-align: center;
-    font-weight: 700;
-    color: #14b8a6;
-    font-size: 28px;
-    letter-spacing: -0.8px;
+  margin: 0 0 30px;
+  text-align: center;
+  font-weight: 700;
+  color: #14b8a6;
+  font-size: 28px;
+  letter-spacing: -0.8px;
 }
 
-/* Bar listesi */
 #bars {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-    justify-content: center;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  justify-content: center;
 }
 
 .bar-item {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .bar-label {
-    font-size: 15px;
-    font-weight: 500;
-    color: #666;
-    width: 110px;
-    flex-shrink: 0;
-    text-align: right;
-    margin-right: 20px;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+  font-size: 15px;
+  font-weight: 500;
+  color: #666;
+  flex: 0 1 110px;
+  max-width: 110px;
+  min-width: 60px;
+  text-align: right;
+  margin-right: 20px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .bar-track {
-    flex-grow: 1;
-    position: relative;
-    height: 24px;
-    background: #e0e0e0;
-    border-radius: 6px;
-    overflow: hidden;
+  flex-grow: 1;
+  position: relative;
+  height: 24px;
+  background: #e0e0e0;
+  border-radius: 6px;
+  overflow: hidden;
 }
 
 .bar {
-    background-color: #14b8a6;
-    border-radius: 6px;
-    height: 100%;
-    width: 0%;
-    transition: width 1.2s cubic-bezier(0.23, 1, 0.32, 1);
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    padding-right: 10px;
-    box-shadow: inset 0 0 5px rgba(0, 0, 0, .05);
+  background-color: #14b8a6;
+  border-radius: 6px;
+  height: 100%;
+  width: 0%;
+  transition: width 1.2s cubic-bezier(0.23, 1, 0.32, 1);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 10px;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, .05);
+  position: relative;
 }
 
 .bar-value {
-    font-size: 14px;
-    font-weight: 600;
-    color: #ffffff;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, .3);
-    opacity: 0;
-    transition: opacity 0.8s ease 0.6s;
+  font-size: 14px;
+  font-weight: 600;
+  color: #555;
+  text-shadow: none;
+  position: absolute;
+  right: 10px;
+  white-space: nowrap;
+  visibility: hidden;
+  transition: visibility 0.1s ease, color 0.3s ease, right 0.3s ease, transform 0.3s ease;
 }
 
 .bar[data-animated="true"] .bar-value {
-    opacity: 1;
+  visibility: visible;
 }
 
-/* Hemen alt metin */
+.bar[data-min-width="true"] .bar-value {
+  visibility: visible;
+  color: #555;
+  text-shadow: none;
+  position: absolute;
+  left: calc(100% + 10px);
+  right: auto;
+  transform: none;
+}
+
 .chart-note {
-    margin-top: 25px;
-    font-size: 14px;
-    color: #888;
-    text-align: center;
-    padding-top: 15px;
-    border-top: 1px solid #f0f0f0;
+  margin-top: 25px;
+  font-size: 14px;
+  color: #888;
+  text-align: center;
+  padding-top: 15px;
+  border-top: 1px solid #f0f0f0;
 }
 
 /* Kartlar */
 #cards {
-    width: 300px;
-    overflow-y: visible;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+  width: 260px;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
 .card {
-    height: 90px;
-    padding: 15px 20px;
-    box-sizing: border-box;
-    background: #ffffff;
-    border-radius: 14px;
-    box-shadow: 0 4px 18px rgba(0, 0, 0, .06);
-    font-weight: 600;
-    font-size: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    user-select: none;
-    cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.3s ease;
-    opacity: 0.5;
+  height: 90px;
+  padding: 15px 20px;
+  box-sizing: border-box;
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, .06);
+  font-weight: 600;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.3s ease;
+  opacity: 0.5;
 }
 
 .card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, .1);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, .1);
 }
 
-/* Aktif kart stili */
 .card.active-card {
-    opacity: 1;
-    box-shadow: 0 12px 40px rgba(0, 0, 0, .15);
-    transform: scale(1.02);
+  opacity: 1;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, .15);
+  transform: scale(1.02);
 }
 
-/* final-scroll-spacer'ın stilini koru */
+/* Son Kaydırma Boşluğu */
 #final-scroll-spacer {
-    height: 100vh;
-    background: transparent;
+  height: 100vh;
+  background: transparent;
+}
+
+/* Responsive Ayarlamalar */
+@media (max-width: 850px) {
+  #container {
+    gap: 25px;
+  }
+}
+
+@media (max-width: 768px) {
+  #container {
+    flex-direction: column;
+    gap: 25px;
+  }
+
+  #chart, #cards {
+    width: 100%;
+    max-width: none;
+  }
+
+  #cards {
+    height: auto;
+  }
 }

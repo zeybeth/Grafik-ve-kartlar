@@ -1,46 +1,114 @@
-/* ------------------ VERİ ------------------ */
-const stores = [
-  {store:"TeknoSA",products:[
-    {name:"Laptop",revenue:24500},{name:"Kulaklık",revenue:18200},
-    {name:"Klavye",revenue:9700},{name:"Mouse",revenue:8600},
-    {name:"Powerbank",revenue:6200}]},
-  {store:"Vatan Bilgisayar",products:[
-    {name:"Masaüstü PC",revenue:21000},{name:"Monitör",revenue:17500},
-    {name:"SSD",revenue:11200},{name:"Klavye",revenue:9100},
-    {name:"Hoparlör",revenue:6900}]},
-  {store:"MediaMarkt",products:[
-    {name:"Tablet",revenue:19800},{name:"BT Kulaklık",revenue:17600},
-    {name:"Smartwatch",revenue:15300},{name:"Powerbank",revenue:9700},
-    {name:"Laptop",revenue:23300}]},
-  {store:"Gold Teknoloji",products:[
-    {name:"Laptop",revenue:22100},{name:"Webcam",revenue:8800},
-    {name:"Klavye",revenue:7200},{name:"Mousepad",revenue:4400},
-    {name:"Router",revenue:6300}]}
+/* Veri Yapısı */
+const STORES_DATA = [
+  {
+    store: "Bakır Talebi",
+    description: "2021'den 2024'e bakır talebi yaklaşık %8 artmıştır. Temiz enerjide bakır kullanım oranı %29'dur. 2050 Net Sıfır Emisyon simülasyonuna göre bakır talebi 2 kattan fazla artış gösterebilir.",
+    unit: "kt Cu",
+    products: [
+      { name: "Toplam talep", revenue: 26717 },
+      { name: "Diğer kullanımlar", revenue: 18980 },
+      { name: "Elektrik ağları", revenue: 4929 },
+      { name: "Güneş paneli", revenue: 1657 },
+      { name: "Diğer temiz enerji", revenue: 654 },
+      { name: "Elektrikli araçlar", revenue: 497 }
+    ]
+  },
+  {
+    store: "Lityum Talebi",
+    description: "Lityumun temiz enerji kullanımındaki payı 2021'de %40 iken bu oran 2024'te %62'ye yükselmiştir. Net Sıfır Emisyon senaryosuna göre %92'ye yükselmesi tahmin edilmektedir.",
+    unit: "kt Li",
+    products: [
+      { name: "Toplam talep", revenue: 205 },
+      { name: "Elektrikli araçlar", revenue: 109 },
+      { name: "Diğer kullanımlar", revenue: 77 },
+      { name: "Batarya depolama", revenue: 19 }
+    ]
+  },
+  {
+    store: "Nikel Talebi",
+    description: "Nikele olan talep 2021'den 2024'e kadar yaklaşık %19 artış göstermiştir. Net Sıfır Emisyon senaryosuna göre %125,8'lik talep artışı tahmin edilmektedir.",
+    unit: "kt Ni",
+    products: [
+      { name: "Toplam talep", revenue: 3371 },
+      { name: "Diğer kullanımlar", revenue: 2809 },
+      { name: "Elektrikli araçlar", revenue: 321 },
+      { name: "Diğer temiz enerji", revenue: 224 },
+      { name: "Batarya depolama", revenue: 17 }
+    ]
+  },
+  {
+    store: "Kobalt Talebi",
+    description: "Temiz enerjide kobalt kullanımı payı %20'den %32'ye çıkmıştır. 2050'ye kadar ise %58'e yükselmesi tahmin edilmiştir.",
+    unit: "kt Co",
+    products: [
+      { name: "Toplam talep", revenue: 225 },
+      { name: "Diğer kullanımlar", revenue: 154 },
+      { name: "Elektrikli araçlar", revenue: 67 },
+      { name: "Batarya depolama", revenue: 4 }
+    ]
+  },
+  {
+    store: "Grafit Talebi",
+    description: "2050 yılına grafit talebinin yaklaşık 3 kat artması beklenmektedir. Temiz enerji kullanımındaki payının ise %32'den %47'ye yükselmesi tahmin edilmiştir.",
+    unit: "kt",
+    products: [
+      { name: "Toplam talep", revenue: 4766 },
+      { name: "Diğer kullanımlar", revenue: 3260 },
+      { name: "Elektrikli araçlar", revenue: 1260 },
+      { name: "Batarya depolama", revenue: 246 }
+    ]
+  },
+  {
+    store: "Nadir Toprak Elementleri",
+    description: "Bu bölüm için özel bir açıklama bulunmamaktadır. Nadir toprak elementleri talebi verileri gösterilmektedir.",
+    unit: "kt REE",
+    products: [
+      { name: "Toplam talep", revenue: 91 },
+      { name: "Diğer kullanımlar", revenue: 72 },
+      { name: "Rüzgar türbinleri", revenue: 10 },
+      { name: "Elektrikli araçlar", revenue: 8 }
+    ]
+  }
 ];
 
-/* ------------------ DOM Elemanları ------------------ */
-const cardsDiv = document.getElementById('cards');
-const barsDiv = document.getElementById('bars');
-const storeNameH2 = document.getElementById('storeName');
-const chartDiv = document.getElementById('chart');
-const newsTopDiv = document.getElementById('news-top');
-const container = document.getElementById('container');
-const newsBottomDiv = document.getElementById('news-bottom');
-const stickyGroup = document.getElementById('sticky-group');
-const finalScrollSpacer = document.getElementById('final-scroll-spacer');
-const wrapper = document.querySelector('.wrapper');
-const body = document.body;
+/* Sabitler (Constants) */
+const BAR_ANIMATION_BASE_DELAY_MS = 100;
+const BAR_ANIMATION_INCREMENT_MS = 150;
+const BAR_MIN_PERCENTAGE_WIDTH = 2;
+const BAR_MIN_WIDTH_THRESHOLD_PERCENT = 15;
+const SCROLL_PER_CARD_FACTOR = 1;
+const STICKY_GROUP_GAP = 60;
+const WRAPPER_HORIZONTAL_PADDING = 25;
+const SCROLL_LOCK_DURATION_MS = 700;
 
-/* ------------------ Kartları DOM'a Ekle ------------------ */
-stores.forEach(s => {
-  const c = document.createElement('div');
-  c.className = 'card';
-  c.textContent = s.store;
-  cardsDiv.appendChild(c);
-});
-const cards = [...document.querySelectorAll('.card')];
+/* DOM Elemanları */
+const DOMElements = {
+  cardsDiv: document.getElementById('cards'),
+  barsDiv: document.getElementById('bars'),
+  storeNameH2: document.getElementById('storeName'),
+  chartDiv: document.getElementById('chart'),
+  newsTopDiv: document.getElementById('news-top'),
+  container: document.getElementById('container'),
+  newsBottomDiv: document.getElementById('news-bottom'),
+  stickyGroup: document.getElementById('sticky-group'),
+  finalScrollSpacer: document.getElementById('final-scroll-spacer'),
+  wrapper: document.querySelector('.wrapper'),
+  body: document.body,
+  mineralDescriptionDiv: document.getElementById('mineralDescription'),
+  descriptionText: document.getElementById('descriptionText'),
+  unitNote: document.getElementById('unitNote'),
+};
 
-/* ------------------ Aktif Kart Stilini Güncelle ------------------ */
+let cards = [];
+let currentActiveCardIndex = -1;
+let isScrollingByClick = false;
+
+let pinStartScrollY = 0;
+let pinEndScrollY = 0;
+let chartFixedTopOffset = 0;
+let stickyGroupHeight = 0;
+let totalFixedScrollDuration = 0;
+
 function updateCardActiveState(activeIndex) {
   cards.forEach((card, i) => {
     if (i === activeIndex) {
@@ -51,21 +119,69 @@ function updateCardActiveState(activeIndex) {
   });
 }
 
-/* ------------------ Grafik Güncelleme Fonksiyonu ------------------ */
-function updateChart(idx) {
-  if (idx < 0 || idx >= stores.length) return; // Geçersiz indeks kontrolü
-  const { store, products } = stores[idx];
-  storeNameH2.textContent = store;
-  barsDiv.innerHTML = '';
-  const max = Math.max(...products.map(p => p.revenue));
+function formatRevenue(value) {
+  return value.toLocaleString('tr-TR');
+}
 
-  products.sort((a, b) => b.revenue - a.revenue).forEach((p, i) => {
+/* UI Güncelleme Fonksiyonları */
+function createCardElement(storeData, index) {
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.textContent = storeData.store;
+  card.dataset.index = index;
+
+  card.addEventListener('click', () => {
+    const clickedIndex = parseInt(card.dataset.index);
+
+    isScrollingByClick = true;
+
+    updateChart(clickedIndex);
+    updateCardActiveState(clickedIndex);
+    currentActiveCardIndex = clickedIndex;
+
+    const scrollPerCard = window.innerHeight * SCROLL_PER_CARD_FACTOR;
+    const targetScrollY = pinStartScrollY + (clickedIndex * scrollPerCard);
+
+    window.scrollTo({
+      top: targetScrollY,
+      behavior: 'smooth'
+    });
+
+    setTimeout(() => {
+      isScrollingByClick = false;
+    }, SCROLL_LOCK_DURATION_MS);
+  });
+  return card;
+}
+
+function initializeCards() {
+  DOMElements.cardsDiv.innerHTML = '';
+  cards = [];
+
+  STORES_DATA.forEach((storeData, index) => {
+    const card = createCardElement(storeData, index);
+    DOMElements.cardsDiv.appendChild(card);
+    cards.push(card);
+  });
+}
+
+function updateChart(idx) {
+  if (idx < 0 || idx >= STORES_DATA.length) return;
+
+  const { store, products, description, unit } = STORES_DATA[idx];
+
+  DOMElements.storeNameH2.textContent = store;
+  DOMElements.barsDiv.innerHTML = '';
+
+  const maxRevenue = products.length > 0 ? Math.max(...products.map(p => p.revenue)) : 1;
+
+  products.sort((a, b) => b.revenue - a.revenue).forEach((product, i) => {
     const barItem = document.createElement('div');
     barItem.className = 'bar-item';
 
     const barLabel = document.createElement('div');
     barLabel.className = 'bar-label';
-    barLabel.textContent = p.name;
+    barLabel.textContent = product.name;
     barItem.appendChild(barLabel);
 
     const barTrack = document.createElement('div');
@@ -73,173 +189,150 @@ function updateChart(idx) {
 
     const bar = document.createElement('div');
     bar.className = 'bar';
-    bar.style.width = '0%'; // Animasyon için başlangıç değeri
+    bar.style.width = '0%';
 
     const barValueSpan = document.createElement('span');
     barValueSpan.className = 'bar-value';
-    barValueSpan.textContent = `₺${p.revenue.toLocaleString('tr-TR')}`;
+    barValueSpan.textContent = `${formatRevenue(product.revenue)} ${unit}`;
 
     bar.appendChild(barValueSpan);
     barTrack.appendChild(bar);
     barItem.appendChild(barTrack);
-    barsDiv.appendChild(barItem);
+    DOMElements.barsDiv.appendChild(barItem);
 
-    // Animasyonu gecikmeli başlat
     setTimeout(() => {
-      bar.style.width = (p.revenue / max * 100) + '%';
+      let calculatedWidth = (product.revenue / maxRevenue * 100);
+      let finalWidthPercent = Math.max(calculatedWidth, BAR_MIN_PERCENTAGE_WIDTH);
+
+      bar.style.width = finalWidthPercent + '%';
       bar.setAttribute('data-animated', 'true');
-    }, 100 + i * 150);
+
+      if (calculatedWidth < BAR_MIN_WIDTH_THRESHOLD_PERCENT) {
+        bar.setAttribute('data-min-width', 'true');
+      }
+    }, BAR_ANIMATION_BASE_DELAY_MS + i * BAR_ANIMATION_INCREMENT_MS);
   });
+
+  DOMElements.descriptionText.textContent = description;
+  DOMElements.mineralDescriptionDiv.style.display = 'block';
+  DOMElements.unitNote.textContent = `Birim: ${unit}`;
 }
 
-/* ------------------ Sabitleme ve Kaydırma Hesaplamaları ------------------ */
-let currentActiveCardIndex = -1;
-let stickyGroupOriginalOffsetTop = 0;
-let stickyGroupHeight = 0;
-let chartFixedTopOffset = 0; // Grafiğin ekranın tepesine göre sabitleneceği offset
-let totalFixedScrollDuration = 0; // Toplam kaydırma süresi
-let pinStartScrollY = 0; // sticky-group'un sabitlenmeye başlayacağı kaydırma noktası
-let pinEndScrollY = 0;    // sticky-group'un sabitlenmesinin biteceği kaydırma noktası
-
+/* Sabitleme ve Kaydırma Hesaplamaları */
 function calculateFixedSection() {
   const viewportHeight = window.innerHeight;
 
-  // Geçici olarak relative yapıp gerçek pozisyonunu ve boyutunu alalım
-  stickyGroup.style.position = 'relative';
-  stickyGroup.style.top = 'auto';
-  stickyGroup.style.left = 'auto';
-  stickyGroup.style.transform = 'none'; // Transform'u sıfırla
+  DOMElements.stickyGroup.style.position = 'relative';
+  DOMElements.stickyGroup.style.top = 'auto';
+  DOMElements.stickyGroup.style.left = 'auto';
+  DOMElements.stickyGroup.style.transform = 'none';
+  DOMElements.stickyGroup.style.width = '100%';
 
-  stickyGroupOriginalOffsetTop = stickyGroup.offsetTop;
-  stickyGroupHeight = stickyGroup.offsetHeight;
+  const stickyGroupOriginalOffsetTop = DOMElements.stickyGroup.offsetTop;
+  const containerTopRelativeToStickyGroup = DOMElements.container.offsetTop;
 
-  const newsTopHeight = newsTopDiv.offsetHeight;
-  const containerOnlyHeight = container.offsetHeight; // Grafik ve kartları içeren div
-
-  // Grafik (container) ekranın dikey ortasına gelsin istiyoruz.
-  // stickyGroup'un top değeri, newsTop'un yüksekliği çıkarıldıktan sonra
-  // container'ın ortalanmasını sağlayacak şekilde ayarlanır.
-  chartFixedTopOffset = (viewportHeight / 2) - (newsTopHeight + (containerOnlyHeight / 2));
-
-  // fixedTopOffset negatif olamaz (ekranın dışına çıkmamalı)
-  if (chartFixedTopOffset < 0) {
-    chartFixedTopOffset = 0;
+  const wasMineralDescriptionHidden = DOMElements.mineralDescriptionDiv.style.display === 'none';
+  if (wasMineralDescriptionHidden) {
+    DOMElements.mineralDescriptionDiv.style.display = 'block';
+  }
+  stickyGroupHeight = DOMElements.stickyGroup.offsetHeight;
+  if (wasMineralDescriptionHidden) {
+    DOMElements.mineralDescriptionDiv.style.display = 'none';
   }
 
-  // sticky-group'un sabitlenmeye başlayacağı kaydırma noktası
-  pinStartScrollY = stickyGroupOriginalOffsetTop - chartFixedTopOffset;
-  if (pinStartScrollY < 0) pinStartScrollY = 0; // Eksi olamaz
+  pinStartScrollY = stickyGroupOriginalOffsetTop + containerTopRelativeToStickyGroup;
+  chartFixedTopOffset = -containerTopRelativeToStickyGroup;
 
-  // Her bir kart değişimi için kaydırma alanı (örneğin 1 viewport yüksekliği)
-  const scrollPerCard = viewportHeight; // Her kart geçişi için tam ekran kaydırma
-
-  // Toplam sabitlenme süresi (son kartın da tam gösterilmesi için)
-  // Mağaza sayısı (stores.length) - 1, çünkü 0'dan başlıyor ve son karta kadar kaydırma gerekiyor.
-  totalFixedScrollDuration = (stores.length - 1) * scrollPerCard;
-
-  // sticky-group'un sabitlenmesinin biteceği kaydırma noktası
+  const scrollPerCard = viewportHeight * SCROLL_PER_CARD_FACTOR;
+  totalFixedScrollDuration = (STORES_DATA.length - 1) * scrollPerCard;
   pinEndScrollY = pinStartScrollY + totalFixedScrollDuration;
 
-  // body'ye dinamik padding-bottom ekleyerek kaydırma çubuğunu uzat
-  // stickyGroupHeight: sabitlenen elemanın kendi yüksekliği.
-  // finalScrollSpacer.offsetHeight: en alttaki boşluk elemanının yüksekliği.
-  body.style.paddingBottom = `${totalFixedScrollDuration + stickyGroupHeight + finalScrollSpacer.offsetHeight}px`;
+  const totalBodyPaddingBottom = totalFixedScrollDuration + stickyGroupHeight + DOMElements.finalScrollSpacer.offsetHeight + DOMElements.newsBottomDiv.offsetHeight;
+  DOMElements.body.style.paddingBottom = `${totalBodyPaddingBottom}px`;
 
-  console.log("--- Recalculating Fixed Section ---");
-  console.log("newsTopHeight:", newsTopHeight);
-  console.log("containerOnlyHeight:", containerOnlyHeight);
-  console.log("stickyGroupOriginalOffsetTop:", stickyGroupOriginalOffsetTop);
-  console.log("stickyGroupHeight (total):", stickyGroupHeight);
-  console.log("chartFixedTopOffset (stickyGroup):", chartFixedTopOffset);
-  console.log("pinStartScrollY:", pinStartScrollY);
-  console.log("totalFixedScrollDuration:", totalFixedScrollDuration);
-  console.log("pinEndScrollY:", pinEndScrollY);
-  console.log("Body padding-bottom:", body.style.paddingBottom);
+  DOMElements.cardsDiv.style.maxHeight = `${DOMElements.chartDiv.offsetHeight}px`;
 }
 
-
-function onScroll() {
+/* Olay Dinleyicileri */
+function handleScroll() {
   const scrollY = window.scrollY;
-  const wrapperLeftOffset = wrapper.offsetLeft + parseFloat(getComputedStyle(wrapper).paddingLeft);
-  const wrapperContentWidth = wrapper.offsetWidth - (parseFloat(getComputedStyle(wrapper).paddingLeft) + parseFloat(getComputedStyle(wrapper).paddingRight));
 
-  // --- stickyGroup Sabitleme Mantığı ---
+  const wrapperStyle = getComputedStyle(DOMElements.wrapper);
+  const wrapperPaddingLeft = parseFloat(wrapperStyle.paddingLeft);
+  const wrapperPaddingRight = parseFloat(wrapperStyle.paddingRight);
+  const wrapperContentWidth = DOMElements.wrapper.offsetWidth - (wrapperPaddingLeft + wrapperPaddingRight);
+
   if (scrollY >= pinStartScrollY && scrollY < pinEndScrollY) {
-    // Sabitlenme aşamasında
-    stickyGroup.style.position = 'fixed';
-    stickyGroup.style.top = `${chartFixedTopOffset}px`;
-    stickyGroup.style.left = `${wrapperLeftOffset}px`;
-    stickyGroup.style.transform = `none`;
-    stickyGroup.style.width = `${wrapperContentWidth}px`;
-
-    // Kart değişimini tetikle - SADECE grafik ortadayken ve sabitlenme devam ederken
-    // Kaydırma ilerlemesini hesapla
-    const scrollProgressInFixedSection = scrollY - pinStartScrollY;
-    const progressRatio = scrollProgressInFixedSection / totalFixedScrollDuration; // 0'dan 1'e
-
-    // İndeksi hesapla ve Yuvarla
-    const newActiveIndex = Math.round(progressRatio * (stores.length - 1));
-
-    if (newActiveIndex >= 0 && newActiveIndex < stores.length && currentActiveCardIndex !== newActiveIndex) {
-      currentActiveCardIndex = newActiveIndex;
-      updateChart(currentActiveCardIndex);
-      updateCardActiveState(currentActiveCardIndex);
-    }
-
+    DOMElements.stickyGroup.style.position = 'fixed';
+    DOMElements.stickyGroup.style.top = `${chartFixedTopOffset}px`;
+    DOMElements.stickyGroup.style.left = '50%';
+    DOMElements.stickyGroup.style.transform = 'translateX(-50%)';
+    DOMElements.stickyGroup.style.width = `${wrapperContentWidth}px`;
   } else if (scrollY < pinStartScrollY) {
-    // Sabitlenme başlamadan önce (yukarıda)
-    stickyGroup.style.position = 'relative';
-    stickyGroup.style.top = '0';
-    stickyGroup.style.left = '0';
-    stickyGroup.style.transform = 'none';
-    stickyGroup.style.width = '100%';
-
-    // En başa dönünce ilk kartı göster
-    if (currentActiveCardIndex !== 0) {
-      currentActiveCardIndex = 0;
-      updateChart(currentActiveCardIndex);
-      updateCardActiveState(currentActiveCardIndex);
-    }
-
+    DOMElements.stickyGroup.style.position = 'relative';
+    DOMElements.stickyGroup.style.top = '0';
+    DOMElements.stickyGroup.style.left = '0';
+    DOMElements.stickyGroup.style.transform = 'none';
+    DOMElements.stickyGroup.style.width = '100%';
   } else {
-    // Sabitlenme bittikten sonra (aşağıda)
-    stickyGroup.style.position = 'relative';
-    // stickyGroup'un 'top' değeri, sabitlendiği noktadan sonra nereye düşeceğini belirler.
-    // Başlangıç offsetTop'una, sabitlenme süresi boyunca kaydedilen mesafeyi ekleriz,
-    // ve sonra sabitlenme için kullanılan chartFixedTopOffset'ı çıkarırız.
-    // Bu, elementin "fixed" konumdan "relative" konuma geçişini pürüzsüzleştirir.
-    stickyGroup.style.top = `${(pinEndScrollY + chartFixedTopOffset) - stickyGroupOriginalOffsetTop}px`;
-    stickyGroup.style.left = '0';
-    stickyGroup.style.transform = 'none';
-    stickyGroup.style.width = '100%';
+    DOMElements.stickyGroup.style.position = 'absolute';
+    DOMElements.stickyGroup.style.top = `${pinEndScrollY + chartFixedTopOffset}px`;
+    DOMElements.stickyGroup.style.left = '50%';
+    DOMElements.stickyGroup.style.transform = 'translateX(-50%)';
+    DOMElements.stickyGroup.style.width = `${wrapperContentWidth}px`;
+  }
 
-    // En sona inince son kartı göster
-    if (currentActiveCardIndex !== stores.length - 1) {
-      currentActiveCardIndex = stores.length - 1;
-      updateChart(currentActiveCardIndex);
-      updateCardActiveState(currentActiveCardIndex);
+  if (!isScrollingByClick) {
+    if (scrollY >= pinStartScrollY && scrollY < pinEndScrollY) {
+        const scrollProgressInFixedSection = scrollY - pinStartScrollY;
+        const progressRatio = scrollProgressInFixedSection / totalFixedScrollDuration;
+        const newActiveIndex = Math.round(progressRatio * (STORES_DATA.length - 1));
+
+        if (newActiveIndex >= 0 && newActiveIndex < STORES_DATA.length && currentActiveCardIndex !== newActiveIndex) {
+            currentActiveCardIndex = newActiveIndex;
+            updateChart(currentActiveCardIndex);
+            updateCardActiveState(currentActiveCardIndex);
+        }
+    } else if (scrollY < pinStartScrollY) {
+        if (currentActiveCardIndex !== 0) {
+            currentActiveCardIndex = 0;
+            updateChart(currentActiveCardIndex);
+            updateCardActiveState(currentActiveCardIndex);
+        }
+    } else {
+        if (currentActiveCardIndex !== STORES_DATA.length - 1) {
+            currentActiveCardIndex = STORES_DATA.length - 1;
+            updateChart(currentActiveCardIndex);
+            updateCardActiveState(currentActiveCardIndex);
+        }
     }
   }
 }
 
-// Başlangıçta ve pencere boyutu değiştiğinde hesaplamaları yap
-window.addEventListener('load', () => {
-  // Başlangıçta elemanların normal akışta olduğundan emin ol
-  stickyGroup.style.position = 'relative';
-  newsBottomDiv.style.position = 'relative';
+function handleResize() {
+  DOMElements.stickyGroup.style.position = 'relative';
   calculateFixedSection();
-  updateChart(0); // İlk kartı yükle
-  currentActiveCardIndex = 0;
-  updateCardActiveState(currentActiveCardIndex);
-  onScroll(); // Sayfa yüklendiğinde bir kere çalıştır
-});
+  handleScroll();
+}
 
-window.addEventListener('resize', () => {
-  // Yeniden boyutlandırmada pozisyonları sıfırla ve yeniden hesapla
-  stickyGroup.style.position = 'relative';
-  newsBottomDiv.style.position = 'relative';
-  calculateFixedSection();
-  onScroll(); // Yeniden hesapladıktan sonra mevcut kaydırma konumuna göre pozisyonla
-});
+function setupEventListeners() {
+  window.addEventListener('scroll', handleScroll);
+  window.addEventListener('resize', handleResize);
+}
 
-window.addEventListener('scroll', onScroll);
+/* Başlangıç Fonksiyonu */
+function init() {
+  initializeCards();
+  updateChart(0);
+
+  setTimeout(() => {
+    calculateFixedSection();
+    currentActiveCardIndex = 0;
+    updateCardActiveState(currentActiveCardIndex);
+    handleScroll();
+  }, 100);
+
+  setupEventListeners();
+}
+
+window.addEventListener('load', init);

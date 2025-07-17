@@ -1,40 +1,45 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Grafik ve Sabitlenmiş İçerik</title>
-    <link rel="stylesheet" href="styles.css" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Kritik Mineraller Talep Analizi</title>
+
+<link rel="stylesheet" href="styles.css"> 
 </head>
 <body>
 
-    <div class="wrapper">
+<div class="wrapper">
 
-        <div id="sticky-group">
-            <div id="news-top" class="news">
-                <p>Dijital perakende sektöründeki en son satış verilerini keşfedin. Türkiye'nin önde gelen teknoloji mağazalarının performanslarını karşılaştırmalı olarak inceliyoruz. Bu analiz, pazarın dinamiklerini ve tüketici tercihlerindeki değişimleri anlamanıza yardımcı olacaktır.</p>
-                <p>Aşağıdaki interaktif grafikte, mağazaların en çok satan ürün kategorilerine göre gelir dağılımlarını görebilirsiniz. Sağdaki kartları kaydırarak farklı mağazalar arasındaki karşılaştırmaları anlık olarak takip edebilir, hangi ürünlerin hangi mağazalarda daha popüler olduğunu hızlıca anlayabilirsiniz.</p>
-            </div>
-
-            <div id="container">
-                <div id="chart">
-                    <h2 id="storeName">Mağaza Seçiniz</h2>
-                    <div id="bars"></div>
-                    <p class="chart-note">Veriler en çok satan 5 ürünü gösterir. Gelirler ₺ cinsindendir.</p>
-                </div>
-                <div id="cards"></div>
-            </div>
-
-            <div id="news-bottom" class="news">
-                <p>Her bir mağazanın detaylı ürün satış grafiği, sektörel eğilimleri ve mağazaların stratejik başarılarını daha yakından incelemenize olanak tanır. Bilgilerinizi tazelemek ve piyasadaki yerinizi sağlamlaştırmak için bu verileri kullanın.</p>
-                <p>Her bir mağazanın detaylı ürün satış grafiği, sektörel eğilimleri ve mağazaların stratejik başarılarını daha yakından incelemenize olanak tanır. Bilgilerinizi tazelemek ve piyasadaki yerinizi sağlamlaştırmak için bu verileri kullanın.</p>
-            </div>
-        </div>
-
-        <div id="final-scroll-spacer"></div>
-
+  <div id="sticky-group">
+    <div id="news-top" class="news">
+      <p>Bu bölüm, kritik minerallerin küresel talep dinamiklerini ve temiz enerji teknolojilerindeki rollerini incelemektedir. Veriler, pazarın mevcut durumunu ve gelecekteki eğilimleri anlamanıza yardımcı olacaktır.</p>
+      <p>Aşağıdaki interaktif grafikte, farklı kritik mineraller için talep dağılımlarını görebilirsiniz. Sağdaki kartları kaydırarak veya tıklayarak her bir mineralin detaylı talep kategorilerini ve ilgili açıklamasını inceleyebilirsiniz.</p>
     </div>
 
-    <script src="script.js"></script>
+    <div id="container">
+      <div id="chart">
+        <h2 id="storeName">Mineral Seçiniz</h2>
+        <div id="bars"></div>
+        <p class="chart-note" id="unitNote">Birim: -</p>
+      </div>
+      <div id="cards"></div>
+    </div>
+
+    <div id="mineralDescription" class="news" style="display: none;">
+      <p id="descriptionText"></p>
+    </div>
+
+    <div id="news-bottom" class="news">
+      <p>Bu grafik, kritik minerallere olan talebin mevcut dağılımını ve gelecekteki potansiyelini göstermektedir. Temiz enerjiye geçiş sürecinde bu minerallerin önemi artmaktadır.</p>
+      <p>Detaylı analizler için her bir mineralin kategorize edilmiş talep verilerini inceleyebilirsiniz. Veriler, Net Sıfır Emisyon senaryolarına dayalı tahminleri içerebilir ve sektördeki değişimi anlamanıza yardımcı olabilir.</p>
+    </div>
+  </div>
+
+  <div id="final-scroll-spacer"></div>
+
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>
